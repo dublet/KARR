@@ -4,6 +4,7 @@
 #include <utility>
 
 #include <string.h>
+#include <stdio.h>
 
 using namespace VGPP;
 using namespace std;
@@ -43,10 +44,12 @@ void Matrix::transpose() {
 }
 
 void Matrix::rotate(VGfloat degrees) {
-    sx() *= cosf(degrees);
-    shx() *= -sinf(degrees);
-    shy() *= sinf(degrees);
-    sy() *= cosf(degrees);
+    Matrix m1;
+    m1.sx() = cosf(degrees);
+    m1.shy() = sinf(degrees);
+    m1.shx() = -m1.shy();
+    m1.sy() = m1.sx();
+    *this *= m1;
 }
 
 void Matrix::translate(VGfloat newTx, VGfloat newTy) {
@@ -63,26 +66,31 @@ void Matrix::scale(VGfloat newSx, VGfloat newSy) {
     *this *= m1;
 }
 
-Matrix &Matrix::operator+=(const VGfloat *rhs) {
-    _m[0] += rhs[0]; _m[1] += rhs[1]; _m[2] += rhs[2];
-    _m[3] += rhs[3]; _m[4] += rhs[4]; _m[5] += rhs[5];
-    _m[6] += rhs[6]; _m[7] += rhs[7]; _m[8] += rhs[8];
-
-    return *this;
+void Matrix::shear(VGfloat newShx, VGfloat newShy) {
+    Matrix m1;
+    m1.shx() = newShx;
+    m1.shy() = newShy;
+    *this *= m1;
 }
 
 Matrix &Matrix::operator*=(const VGfloat *rhs) {
-    _m[0] *= rhs[0]; _m[1] *= rhs[1]; _m[2] *= rhs[2];
-    _m[3] *= rhs[3]; _m[4] *= rhs[4]; _m[5] *= rhs[5];
-    _m[6] *= rhs[6]; _m[7] *= rhs[7]; _m[8] *= rhs[8];
+    VGfloat tmp[9];
+    tmp[0] = _m[0] * rhs[0] + _m[3] * rhs[1] + _m[6] * rhs[2];
+    tmp[1] = _m[1] * rhs[0] + _m[4] * rhs[1] + _m[7] * rhs[2];
+    tmp[2] = _m[2] * rhs[0] + _m[5] * rhs[1] + _m[8] * rhs[2];
+    tmp[3] = _m[0] * rhs[3] + _m[3] * rhs[4] + _m[6] * rhs[5];
+    tmp[4] = _m[1] * rhs[3] + _m[4] * rhs[4] + _m[7] * rhs[5];
+    tmp[5] = _m[2] * rhs[3] + _m[5] * rhs[4] + _m[8] * rhs[5];
+    tmp[6] = _m[0] * rhs[6] + _m[3] * rhs[7] + _m[6] * rhs[8];
+    tmp[7] = _m[1] * rhs[6] + _m[4] * rhs[7] + _m[7] * rhs[8];
+    tmp[8] = _m[2] * rhs[6] + _m[5] * rhs[7] + _m[8] * rhs[8];
+
+    memcpy(&_m[0], tmp, 9 * sizeof(VGfloat));
+
 
     return *this;
 }
 
-Matrix &Matrix::operator+=(const Matrix &rhs) {
-    return *this += rhs._m;
-}
-
 Matrix &Matrix::operator*=(const Matrix &rhs) {
-    return *this *= rhs._m;
+    return *this *= &rhs._m[0];
 }

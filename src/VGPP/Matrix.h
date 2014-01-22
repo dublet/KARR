@@ -8,7 +8,7 @@ namespace VGPP {
 	private:
 	    /*! 
 	     * For matrix:
-	     * [ sx  shz tx
+	     * [ sx  shx tx
 	     *   shy sy  ty
 	     *   w0  w1  w2 ]
 	     * Order is: 
@@ -40,10 +40,9 @@ namespace VGPP {
 
 	    void rotate(VGfloat degrees);
 	    void translate(VGfloat tx, VGfloat ty);
-	    void scale(VGfloat sx, VGfloat xy);
-	    Matrix &operator+=(const VGfloat *rhs);
+	    void scale(VGfloat sx, VGfloat sy);
+	    void shear(VGfloat shx, VGfloat shy);
 	    Matrix &operator*=(const VGfloat *rhs);
-	    Matrix &operator+=(const Matrix &rhs);
 	    Matrix &operator*=(const Matrix &rhs);
     };
 }
