@@ -42,6 +42,9 @@ void Path::draw(VGbitfield paintMode) const {
 
 void Path::setData(int numSegments, const VGubyte *segments, const VGfloat *pathData) {
     vgAppendPathData(_path, numSegments, segments, pathData);
+    VGfloat min_x, min_y, width, height;
+    vgPathBounds(_path, &min_x, &min_y, &width, &height);
+    fprintf(stderr, "x, y= (%f, %f) w, h = (%f, %f)", min_x, min_y, width, height);
 }
 
 void Path::setStrokeColour(const VGuint newColour) {
@@ -76,4 +79,28 @@ Matrix &Path::getMatrix() {
 
 const Matrix &Path::getMatrix() const {
     return _matrix;
+}
+
+const VGfloat Path::getX() const {
+    VGfloat min_x, min_y, width, height;
+    vgPathBounds(_path, &min_x, &min_y, &width, &height);
+    return min_x;
+}
+
+const VGfloat Path::getY() const {
+    VGfloat min_x, min_y, width, height;
+    vgPathBounds(_path, &min_x, &min_y, &width, &height);
+    return min_y;
+}
+
+const VGfloat Path::getWidth() const {
+    VGfloat min_x, min_y, width, height;
+    vgPathBounds(_path, &min_x, &min_y, &width, &height);
+    return width;
+}
+
+const VGfloat Path::getHeight() const {
+    VGfloat min_x, min_y, width, height;
+    vgPathBounds(_path, &min_x, &min_y, &width, &height);
+    return height;
 }

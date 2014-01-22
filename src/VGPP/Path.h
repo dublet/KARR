@@ -22,6 +22,10 @@ namespace VGPP {
 	    void setFillColour(const VGuint newColour);
 	    Matrix &getMatrix();
 	    const Matrix &getMatrix() const;
+	    const VGfloat getX() const;
+	    const VGfloat getY() const;
+	    const VGfloat getWidth() const;
+	    const VGfloat getHeight() const;
     };
 }
 
