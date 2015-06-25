@@ -31,7 +31,7 @@ Celica205Display::~Celica205Display() {
 
 }
 
-void Celica205Display::draw() const {
+void Celica205Display::draw() {
     Status &s = Status::instance();
 
     { /* Speedo ticks */

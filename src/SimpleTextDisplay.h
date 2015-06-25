@@ -8,7 +8,7 @@ namespace KARR {
 	public:
 	    SimpleTextDisplay();
 	    virtual ~SimpleTextDisplay();
-	    void draw() const;
+	    void draw();
 
     };
 }

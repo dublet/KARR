@@ -18,7 +18,7 @@ SimpleTextDisplay::~SimpleTextDisplay() {
 
 }
 
-void SimpleTextDisplay::draw() const {
+void SimpleTextDisplay::draw() {
     GLfloat overcolor[4] = {1, 1, 1, 1};
     glColor4fv(overcolor);
     Status &s = Status::instance();

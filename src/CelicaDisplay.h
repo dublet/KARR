@@ -11,7 +11,7 @@ namespace KARR {
 	public:
 	    Celica205Display();
 	    virtual ~Celica205Display();
-	    void draw() const;
+	    void draw();
 
     };
 }
