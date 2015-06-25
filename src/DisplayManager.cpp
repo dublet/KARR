@@ -19,7 +19,7 @@ void DisplayManager::registerDisplay(const Display *d) {
 }
 
 const Display *DisplayManager::getNext() {
-    if (_current++ > (_displays.size() - 1))
+    if (std::size_t(_current++) == _displays.size())
 	_current = 0;
     return _displays[_current];
 }
