@@ -17,7 +17,7 @@ namespace KARR {
 	public:
 	    Display();
 	    virtual ~Display();
-	    virtual void draw() const = 0;
+	    virtual void draw() = 0;
 
 	    UnitMode_t getUnitMode() { return _unitMode; }
 	    void setUnitMode(UnitMode_t unitMode) { _unitMode = unitMode; }
