@@ -16,6 +16,8 @@ ADD_DEFINITIONS(
 
 add_executable(${PROJECT_NAME}
     VGPP/Path.cpp 
+    VGPP/Text.cpp 
+    VGPP/Font.cpp 
     VGPP/Matrix.cpp 
     CelicaDisplay.cpp 
     CarDefinition.cpp 
