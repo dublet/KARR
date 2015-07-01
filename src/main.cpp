@@ -87,7 +87,7 @@ void handleDisplay() {
     /* Draw scene */
     const Display *currentDisplay = DisplayManager::instance().getCurrent();
     if (currentDisplay)
-	currentDisplay->draw(/*interval*/);
+	const_cast<Display *>(currentDisplay)->draw(/*interval*/);
     else
     {
 	vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
