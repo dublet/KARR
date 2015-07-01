@@ -6,7 +6,7 @@
 namespace VGPP {
     class Font {
 	private:
-	    VGFont _font;
+	    //VGFont _font;
 	public:
 	    Font();
 	    ~Font();
