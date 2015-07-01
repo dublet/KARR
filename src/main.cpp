@@ -48,6 +48,7 @@
 #include "GLUtil.h"
 #include "CelicaDisplay.h"
 #include "SimpleTextDisplay.h"
+#include "SerialConnection.h"
 #include "TestInput.h"
 #include "Knight_Industries.C"
 
@@ -158,7 +159,7 @@ void registerDisplays() {
 }
 
 void initCommunication() {
-    arduinoConnection.open("/dev/ttyAMA0");
+    sArduinoConnection.open("/dev/ttyAMA0");
 }
 
 int main(int argc, char** argv) {
