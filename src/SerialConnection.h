@@ -43,11 +43,13 @@ class SerialConnection {
 	int mFd;
 	boost::filesystem::path mPath;
     public:
+	SerialConnection();
 	SerialConnection(const boost::filesystem::path &);
 	~SerialConnection();
 
 	bool isOpened() const;
 
+	void open(const boost::filesystem::path &p);
 	void open();
 	void close();
 	bool read(void *buf, size_t maxSize);

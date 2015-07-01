@@ -43,7 +43,11 @@
 #include <string.h>
 #include <unistd.h>
 
-SerialConnection::SerialConnection(const boost::filesystem::path) : mFd(-1) {
+SerialConnection::SerialConnection() : mFd(-1) {
+}
+
+SerialConnection::SerialConnection(const boost::filesystem::path &path) : SerialConnection() {
+    open(path);
 }
 
 SerialConnection::~SerialConnection() {
@@ -54,8 +58,17 @@ bool SerialConnection::isOpened() const {
     return mFd > -1;
 }
 
+void SerialConnection::open(const boost::filesystem::path &newPath) {
+    if (isOpened())
+	close();
+
+    mPath = newPath;
+
+    open();
+}
+
 void SerialConnection::open() {
-    mFd = open(mPath.string().c_str(), O_RDWR | O_NONBLOCK | O_NDELAY);
+    mFd = ::open(mPath.string().c_str(), O_RDWR | O_NONBLOCK | O_NDELAY);
     if (mFd < 0)
 	abort();
 
@@ -79,13 +92,13 @@ void SerialConnection::open() {
 
 void SerialConnection::close() {
     if (mFd > -1) 
-	close(mFd);
+	::close(mFd);
     mFd = -1;
 }
 
 bool SerialConnection::read(void *buf, size_t size) {
     ssize_t readSize = ::read(mFd, buf, size);
-    if (readSize != size)
+    if (readSize != (ssize_t)size)
 	return false;
     return true;
 }
