@@ -2,12 +2,16 @@
 cmake_minimum_required(VERSION 2.8)
 set(PROJECT_NAME "karr")
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
+
 PROJECT(${PROJECT_NAME})
 
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(ShivaVG REQUIRED)
 find_package(Boost COMPONENTS filesystem system REQUIRED)
+find_package(nanosvg REQUIRED)
 
 ADD_DEFINITIONS(
     -std=c++11 
@@ -32,6 +36,6 @@ add_executable(${PROJECT_NAME}
     SVGReader.cpp
     TestInput.cpp )
 
-include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} )
+include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} ${nanosvg_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SHIVAVG_LIBRARY} ${Boost_LIBRARIES} )
