@@ -1,0 +1,11 @@
+
+<cardefinition>
+    <id>TOY-ST205</id>
+    <make>Toyota</make>
+    <model>Celica GT-four</model>
+    <revs min="0", max="7200" />
+    <speed min="0" max="240" />
+    <engineTemp min="0" max="120" />
+    <fuelLevel min="0" max="55" />
+    <boostLevel min="-2", max="8" />
+</cardefinition>

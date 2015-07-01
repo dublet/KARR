@@ -16,20 +16,19 @@ void generateTestData() {
 
     struct timespec sleepTime;
     sleepTime.tv_sec = 0;
-    sleepTime.tv_nsec = 40 * 1000; 
+    sleepTime.tv_nsec = 20 * 1000 * 1000; 
 
     int rpmDirection = 1;
     int speedDirection = 1;
     for (;;) {
-	const Display *d = DisplayManager::instance().getCurrent();
-	if (s.getRpm() >= CarDefinition::revs.max)
+	if (s.getRpm() >= StaticCarDefinition::revs.max)
 	    rpmDirection = -1;
-	if (s.getRpm() == CarDefinition::revs.min)
+	if (s.getRpm() == StaticCarDefinition::revs.min)
 	    rpmDirection = 1;
 
-	if (s.getSpeed() >= CarDefinition::speed.max)
+	if (s.getSpeed() >= StaticCarDefinition::speed.max)
 	    speedDirection = -1;
-	if (s.getSpeed() == CarDefinition::speed.min)
+	if (s.getSpeed() == StaticCarDefinition::speed.min)
 	    speedDirection = 1;
 
 	s.setRpm(s.getRpm() + rpmDirection);

@@ -34,12 +34,14 @@ Celica205Display::~Celica205Display() {
 void Celica205Display::draw() {
     Status &s = Status::instance();
 
+    const DynamicCarDefinition &dcc = DynamicCarDefinition::GetCarDefinition();
+
     { /* Speedo ticks */
 	_speedTicks.draw();
     }
     { /* Speedo needle */
-	float speedNeedleAngle = s.getRpm() / float(CarDefinition::revs.max) * 360;
 	VGPP::Matrix &m = const_cast<Celica205Display *>(this)->_speedNeedle.getMatrix();
+	float speedNeedleAngle = s.getSpeed() / float(dcc.speed.max) * 6 + 60;
 	m.makeIdentity();
 	m.translate(0, 600);
 	m.rotate(speedNeedleAngle);
