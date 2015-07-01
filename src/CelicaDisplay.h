@@ -8,6 +8,8 @@ namespace KARR {
     class Celica205Display : public Display {
 	private:
 	    VGPP::Path _speedNeedle, _speedTicks;
+	    VGPP::Path _parkingBrakeIcon, _mainBeamIcon;
+	    VGPP::Path _testPath;
 	public:
 	    Celica205Display();
 	    virtual ~Celica205Display();
