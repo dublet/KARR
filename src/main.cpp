@@ -42,6 +42,7 @@
 #include <string>
 #include <sstream>
 
+#include "ArduinoDataPacket.h"
 #include "Display.h"
 #include "DisplayManager.h"
 #include "GLUtil.h"
@@ -56,12 +57,12 @@ using namespace std;
 static VGImage knightIndustries;
 static const int w = 1024;
 static const int h = 600;
+static SerialConnection sArduinoConnection;
 
 void handleKeyboard(unsigned char key, int x, int y) {
     if (key == 27)
 	exit(0);
 }
-
 
 void handleDisplay() {
     int now;
@@ -69,6 +70,17 @@ void handleDisplay() {
     static int fpsdraw = -1;
     static int fps = 0;
     static int lastfps = 0;
+    static ArduinoDataPacket dataPacket;
+
+    { /* Read data from Arduino */
+	if (sArduinoConnection.isOpened()) {
+	    memset(&dataPacket, '\0', sizeof(ArduinoDataPacket));
+	    if (sArduinoConnection.read((void *)&dataPacket, sizeof(ArduinoDataPacket))) {
+
+		// Update data
+	    }
+	}
+    }
 
     /* Get interval from last redraw */
     now = glutGet(GLUT_ELAPSED_TIME);
@@ -138,16 +150,23 @@ int initScreen() {
     return 0;
 }
 
+
 void registerDisplays() {
     DisplayManager &dm = DisplayManager::instance();
     dm.registerDisplay(new SimpleTextDisplay());
     dm.registerDisplay(new Celica205Display());
 }
 
+void initCommunication() {
+    arduinoConnection.open("/dev/ttyAMA0");
+}
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 
     initScreen();
+
+    initCommunication();
 
     knightIndustries = vgCreateImage(VG_sARGB_8888, 300, 267, 
 	    VG_IMAGE_QUALITY_NONANTIALIASED);
