@@ -135,6 +135,7 @@ int initScreen() {
     atexit(cleanup);
 
     vgCreateContextSH(w,h);
+    return 0;
 }
 
 void registerDisplays() {
