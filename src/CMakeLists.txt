@@ -34,6 +34,7 @@ add_executable(${PROJECT_NAME}
     SerialConnection.cpp
     Status.cpp
     SVGReader.cpp
+    SVGImage.cpp
     TestInput.cpp )
 
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} ${nanosvg_INCLUDE_DIR})
