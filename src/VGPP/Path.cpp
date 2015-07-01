@@ -44,7 +44,7 @@ void Path::setData(int numSegments, const VGubyte *segments, const VGfloat *path
     vgAppendPathData(_path, numSegments, segments, pathData);
     VGfloat min_x, min_y, width, height;
     vgPathBounds(_path, &min_x, &min_y, &width, &height);
-    fprintf(stderr, "x, y= (%f, %f) w, h = (%f, %f)", min_x, min_y, width, height);
+    fprintf(stderr, "x, y= (%f, %f) w, h = (%f, %f)\n", min_x, min_y, width, height);
 }
 
 void Path::setStrokeColour(const VGuint newColour) {
