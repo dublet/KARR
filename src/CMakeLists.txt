@@ -27,6 +27,7 @@ add_executable(${PROJECT_NAME}
     SimpleTextDisplay.cpp
     SerialConnection.cpp
     Status.cpp
+    SVGReader.cpp
     TestInput.cpp )
 
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} )
