@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
     Input.cpp
     main.cpp
     SimpleTextDisplay.cpp
+    SerialConnection.cpp
     Status.cpp
     TestInput.cpp )
 
