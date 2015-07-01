@@ -1,3 +1,6 @@
 [submodule "bgfx"]
 	path = bgfx
 	url = https://github.com/bkaradzic/bgfx.git
+[submodule "nanosvg"]
+	path = nanosvg
+	url = https://github.com/memononen/nanosvg.git

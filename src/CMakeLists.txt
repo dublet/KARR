@@ -11,6 +11,7 @@ find_package(Boost COMPONENTS filesystem system REQUIRED)
 
 ADD_DEFINITIONS(
     -std=c++11 
+    -Wall -Werror
 )
 
 add_executable(${PROJECT_NAME}
