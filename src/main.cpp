@@ -64,21 +64,14 @@ void handleKeyboard(unsigned char key, int x, int y) {
 
 
 void handleDisplay() {
-    int now, msinterval;
-    float interval;
+    int now;
     static bool timeinit = false;
-    static int lastdraw = -1;
     static int fpsdraw = -1;
     static int fps = 0;
     static int lastfps = 0;
 
     /* Get interval from last redraw */
     now = glutGet(GLUT_ELAPSED_TIME);
-    if (!timeinit) 
-	lastdraw = now;
-    msinterval = now - lastdraw;
-    interval = (float)msinterval / 1000;
-    lastdraw = now;
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
