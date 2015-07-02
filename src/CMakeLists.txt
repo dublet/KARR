@@ -12,6 +12,7 @@ find_package(OpenGL REQUIRED)
 find_package(ShivaVG REQUIRED)
 find_package(Boost COMPONENTS filesystem system REQUIRED)
 find_package(nanosvg REQUIRED)
+find_package(bgfx REQUIRED)
 
 ADD_DEFINITIONS(
     -std=c++11 
@@ -37,6 +38,6 @@ add_executable(${PROJECT_NAME}
     SVGImage.cpp
     TestInput.cpp )
 
-include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} ${nanosvg_INCLUDE_DIR})
+include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${SHIVAVG_INCLUDE_DIRS} ${BOOST_INCLUDEDIR} ${nanosvg_INCLUDE_DIR} ${bgfx_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SHIVAVG_LIBRARY} ${Boost_LIBRARIES} )
