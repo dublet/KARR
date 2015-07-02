@@ -11,11 +11,6 @@ function failed() {
 
 if [ -d genie ]; then
     (cd genie && make) || failed;
-
-    cd ../bgfx/tools/bin/linux;
-    if [ ! -L genie ]; then
-	ln -vs ../../../../genie/bin/linux/genie .;
-    fi
     cd ${STARTDIR};
 fi
 if [ -d bx ]; then
