@@ -4,3 +4,9 @@
 [submodule "nanosvg"]
 	path = nanosvg
 	url = https://github.com/memononen/nanosvg.git
+[submodule "genie"]
+	path = genie
+	url = https://github.com/bkaradzic/genie
+[submodule "bx"]
+	path = bx
+	url = https://github.com/bkaradzic/bx.git
