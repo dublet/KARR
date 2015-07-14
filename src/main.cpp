@@ -55,7 +55,6 @@
 using namespace KARR;
 using namespace std;
 
-static VGImage knightIndustries;
 static const int w = 1024;
 static const int h = 600;
 static SerialConnection sArduinoConnection;
@@ -83,6 +82,7 @@ void handleDisplay() {
 	}
     }
 
+#if 0
     /* Get interval from last redraw */
     now = glutGet(GLUT_ELAPSED_TIME);
 
@@ -129,13 +129,15 @@ void handleDisplay() {
 	lastfps = now;
 	timeinit = true;
     }
+#endif
 }
 
 void cleanup() {
-    vgDestroyContextSH();
 }
 
 int initScreen() {
+    bgfx::sdlSetWindow(sdlWindow);
+#if 0
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_STENCIL | GLUT_MULTISAMPLE);
 
     glutInitWindowPosition(0,0);
@@ -145,9 +147,9 @@ int initScreen() {
     glutDisplayFunc(handleDisplay);
     glutIdleFunc(glutPostRedisplay );
     glutKeyboardFunc(handleKeyboard);
+#endif
     atexit(cleanup);
 
-    vgCreateContextSH(w,h);
     return 0;
 }
 
@@ -168,14 +170,6 @@ int main(int argc, char** argv) {
     initScreen();
 
     initCommunication();
-
-    knightIndustries = vgCreateImage(VG_sARGB_8888, 300, 267, 
-	    VG_IMAGE_QUALITY_NONANTIALIASED);
-    vgImageSubData(knightIndustries, knight_industries.pixel_data, 
-	    knight_industries.width * knight_industries.bytes_per_pixel,
-	    VG_sRGB_565,
-	    0, 0, knight_industries.width, knight_industries.height);
-
 
     registerDisplays();
 
