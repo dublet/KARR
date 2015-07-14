@@ -13,6 +13,8 @@ find_package(ShivaVG REQUIRED)
 find_package(Boost COMPONENTS filesystem system REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(bgfx REQUIRED)
+INCLUDE(FindPkgConfig)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 
 ADD_DEFINITIONS(
     -std=c++11 
