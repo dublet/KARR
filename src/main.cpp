@@ -39,6 +39,12 @@
 #include <GL/glut.h>
 #include <vg/openvg.h>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+
+#include <bgfx.h>
+#include <bgfxplatform.h>
+
 #include <string>
 #include <sstream>
 
@@ -82,6 +88,18 @@ void handleDisplay() {
 	}
     }
 
+    // Set view 0 default viewport.
+    bgfx::setViewRect(0, 0, 0, w, h);
+    // This dummy draw call is here to make sure that view 0 is cleared
+    // if no other draw calls are submitted to view 0.
+    bgfx::submit(0);
+    // Use debug font to print information about this example.
+    bgfx::dbgTextClear();
+    bgfx::dbgTextPrintf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
+    bgfx::dbgTextPrintf(0, 2, 0x6f, "Description: Initialization and debug text.");
+    // Advance to next frame. Rendering thread will be kicked to
+    // process submitted rendering primitives.
+	bgfx::frame();
 #if 0
     /* Get interval from last redraw */
     now = glutGet(GLUT_ELAPSED_TIME);
@@ -133,13 +151,24 @@ void handleDisplay() {
 }
 
 void cleanup() {
+    // Shutdown bgfx.
+    bgfx::shutdown();
 }
 
 int initScreen() {
+    SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+    auto sdlWindow = SDL_CreateWindow("karr"
+	    , SDL_WINDOWPOS_UNDEFINED
+	    , SDL_WINDOWPOS_UNDEFINED
+	    , w
+	    , h
+	    , SDL_WINDOW_SHOWN
+	    );
+
     bgfx::sdlSetWindow(sdlWindow);
 #if 0
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_STENCIL | GLUT_MULTISAMPLE);
-
     glutInitWindowPosition(0,0);
     glutInitWindowSize(w,h);
     glutCreateWindow("KARR");
@@ -150,6 +179,12 @@ int initScreen() {
 #endif
     atexit(cleanup);
 
+    bgfx::init();
+    bgfx::reset(w, h, BGFX_RESET_VSYNC);
+
+    // Set view 0 clear state.
+    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
+	    0x303030ff, 1.0f, 0);
     return 0;
 }
 
@@ -165,7 +200,7 @@ void initCommunication() {
 }
 
 int main(int argc, char** argv) {
-    glutInit(&argc, argv);
+    SDL_Init(0);
 
     initScreen();
 
@@ -175,6 +210,14 @@ int main(int argc, char** argv) {
 
     TestInput::run();
 
+    do {
+
+	SDL_Event event;
+	if (SDL_PollEvent(&event)) {
+	    // Do something with event
+	}
+	handleDisplay();
+    } while (1);
     glutMainLoop();
     return 0;
 }
