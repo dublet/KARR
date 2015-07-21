@@ -53,6 +53,7 @@
 #include "DisplayManager.h"
 #include "GLUtil.h"
 #include "CelicaDisplay.h"
+#include "Instrument.h"
 #include "SimpleTextDisplay.h"
 #include "SerialConnection.h"
 #include "TestInput.h"
