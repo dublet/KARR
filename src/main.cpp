@@ -62,6 +62,7 @@
 using namespace KARR;
 using namespace std;
 
+//static VGImage knightIndustries;
 static const int w = 1024;
 static const int h = 600;
 static SDL_Window *sSdlWindow = nullptr;
@@ -74,11 +75,6 @@ void handleKeyboard(unsigned char key, int x, int y) {
 }
 
 void handleDisplay() {
-    int now;
-    static bool timeinit = false;
-    static int fpsdraw = -1;
-    static int fps = 0;
-    static int lastfps = 0;
     static ArduinoDataPacket dataPacket;
 
     { /* Read data from Arduino */
@@ -133,6 +129,7 @@ int initScreen() {
     // Set view 0 clear state.
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
 	    0x303030ff, 1.0f, 0);
+
     return 0;
 }
 
@@ -158,6 +155,6 @@ int main(int argc, char** argv) {
 	}
 	handleDisplay();
     } while (1);
-    glutMainLoop();
+
     return 0;
 }
