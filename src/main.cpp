@@ -105,54 +105,6 @@ void handleDisplay() {
     // Advance to next frame. Rendering thread will be kicked to
     // process submitted rendering primitives.
 	bgfx::frame();
-#if 0
-    /* Get interval from last redraw */
-    now = glutGet(GLUT_ELAPSED_TIME);
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    vgClear(0,0,w,h);
-
-    /* Draw scene */
-    const Display *currentDisplay = DisplayManager::instance().getCurrent();
-    if (currentDisplay)
-	const_cast<Display *>(currentDisplay)->draw(/*interval*/);
-    else
-    {
-	vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
-	vgLoadIdentity();
-	vgScale(1, -1); // Flip the picture
-	vgTranslate(w / 2 - knight_industries.width / 2, -433); // Move to to the center
-	vgDrawImage(knightIndustries);
-    }
-
-
-    if (fpsdraw > -1) {
-	/* Draw fps */
-	GLfloat overcolor[4] = {1, 1, 1, 1};
-	glColor4fv(overcolor);
-	stringstream ss;
-	ss << "FPS: " << fpsdraw;
-	GLUtil::drawString(10, 10, ss.str());
-    }
-
-    /* Swap */
-    glutSwapBuffers();
-
-    /* Count frames per second */
-    ++fps;
-
-    if (timeinit) {
-	if (now - lastfps > 1000) {
-	    lastfps = now;
-	    fpsdraw = fps;
-	    fps = 0;
-	}
-    } else {
-	lastfps = now;
-	timeinit = true;
-    }
-#endif
 }
 
 void cleanup() {
@@ -194,12 +146,6 @@ int initScreen() {
 }
 
 
-void registerDisplays() {
-    DisplayManager &dm = DisplayManager::instance();
-    dm.registerDisplay(new SimpleTextDisplay());
-    dm.registerDisplay(new Celica205Display());
-}
-
 void initCommunication() {
     sArduinoConnection.open("/dev/ttyAMA0");
 }
@@ -210,8 +156,6 @@ int main(int argc, char** argv) {
     initScreen();
 
     initCommunication();
-
-    registerDisplays();
 
     TestInput::run();
 

@@ -26,14 +26,10 @@ add_executable(${PROJECT_NAME}
     VGPP/Text.cpp 
     VGPP/Font.cpp 
     VGPP/Matrix.cpp 
-    CelicaDisplay.cpp 
     CarDefinition.cpp 
-    Display.cpp
-    DisplayManager.cpp
     GLUtil.cpp
     Input.cpp
     main.cpp
-    SimpleTextDisplay.cpp
     SerialConnection.cpp
     Status.cpp
     SVGReader.cpp
