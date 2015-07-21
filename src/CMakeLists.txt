@@ -22,17 +22,12 @@ ADD_DEFINITIONS(
 )
 
 add_executable(${PROJECT_NAME}
-    VGPP/Path.cpp 
-    VGPP/Text.cpp 
-    VGPP/Font.cpp 
-    VGPP/Matrix.cpp 
     CarDefinition.cpp 
     GLUtil.cpp
     Input.cpp
     main.cpp
     SerialConnection.cpp
     Status.cpp
-    SVGReader.cpp
     SVGImage.cpp
     TestInput.cpp )
 
