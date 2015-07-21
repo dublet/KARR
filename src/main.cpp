@@ -64,6 +64,7 @@ using namespace std;
 
 static const int w = 1024;
 static const int h = 600;
+static SDL_Window *sSdlWindow = nullptr;
 static SerialConnection sArduinoConnection;
 static std::vector<Instrument> sInstruments;
 
@@ -105,36 +106,25 @@ void handleDisplay() {
     }
     // Advance to next frame. Rendering thread will be kicked to
     // process submitted rendering primitives.
-	bgfx::frame();
+    bgfx::frame();
 }
 
 void cleanup() {
     // Shutdown bgfx.
     bgfx::shutdown();
+
+    SDL_DestroyWindow(sSdlWindow);
+    SDL_Quit();
 }
 
 int initScreen() {
     SDL_InitSubSystem(SDL_INIT_VIDEO);
 
-    auto sdlWindow = SDL_CreateWindow("karr"
-	    , SDL_WINDOWPOS_UNDEFINED
-	    , SDL_WINDOWPOS_UNDEFINED
-	    , w
-	    , h
-	    , SDL_WINDOW_SHOWN
-	    );
+    sSdlWindow = SDL_CreateWindow("karr",
+	    SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED,
+	    w , h , SDL_WINDOW_SHOWN);
 
-    bgfx::sdlSetWindow(sdlWindow);
-#if 0
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_STENCIL | GLUT_MULTISAMPLE);
-    glutInitWindowPosition(0,0);
-    glutInitWindowSize(w,h);
-    glutCreateWindow("KARR");
-
-    glutDisplayFunc(handleDisplay);
-    glutIdleFunc(glutPostRedisplay );
-    glutKeyboardFunc(handleKeyboard);
-#endif
+    bgfx::sdlSetWindow(sSdlWindow);
     atexit(cleanup);
 
     bgfx::init();
