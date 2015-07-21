@@ -64,6 +64,7 @@ using namespace std;
 static const int w = 1024;
 static const int h = 600;
 static SerialConnection sArduinoConnection;
+static std::vector<Instrument> sInstruments;
 
 void handleKeyboard(unsigned char key, int x, int y) {
     if (key == 27)
@@ -97,6 +98,10 @@ void handleDisplay() {
     bgfx::dbgTextClear();
     bgfx::dbgTextPrintf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
     bgfx::dbgTextPrintf(0, 2, 0x6f, "Description: Initialization and debug text.");
+
+    for (Instrument &instrument : sInstruments) {
+	instrument.draw();
+    }
     // Advance to next frame. Rendering thread will be kicked to
     // process submitted rendering primitives.
 	bgfx::frame();
