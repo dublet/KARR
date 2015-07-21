@@ -10,3 +10,6 @@
 [submodule "bx"]
 	path = bx
 	url = https://github.com/bkaradzic/bx.git
+[submodule "rpi-tools"]
+	path = rpi-tools
+	url = https://github.com/raspberrypi/tools.git
