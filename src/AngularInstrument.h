@@ -48,6 +48,7 @@ class AngularInstrument : public Instrument {
 	virtual ~AngularInstrument();
 
 	virtual void draw();
+	virtual void update(float newVal);
 	virtual bool parseFromTree(boost::property_tree::ptree &);
 
 };
