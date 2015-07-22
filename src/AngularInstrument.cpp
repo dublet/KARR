@@ -63,8 +63,10 @@ bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTre
 	else if (tags.first == "area") {
 	}
 	else if (tags.first == "background") {
+	    mBackground.open(tags.second.get_value<string>());
 	}
 	else if (tags.first == "needle") {
+	    mNeedle.open(tags.second.get_value<string>());
 	}
     }
     return true;
