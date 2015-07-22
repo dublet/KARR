@@ -5,8 +5,6 @@
 #include <time.h>
 
 #include "Status.h"
-#include "Display.h"
-#include "DisplayManager.h"
 #include "CarDefinition.h"
 
 using namespace KARR;

@@ -52,12 +52,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 
 #include "ArduinoDataPacket.h"
-#include "Display.h"
-#include "DisplayManager.h"
-#include "GLUtil.h"
-#include "CelicaDisplay.h"
 #include "Instrument.h"
-#include "SimpleTextDisplay.h"
 #include "SerialConnection.h"
 #include "TestInput.h"
 #include "Knight_Industries.C"
@@ -65,7 +60,6 @@
 using namespace KARR;
 using namespace std;
 
-//static VGImage knightIndustries;
 static const int w = 1024;
 static const int h = 600;
 static SDL_Window *sSdlWindow = nullptr;
