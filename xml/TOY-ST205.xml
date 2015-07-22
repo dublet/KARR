@@ -1,0 +1,10 @@
+<instruments>
+	<instrument>
+		<type>angular</data>
+		<id>fuel_level</id>
+		<needle type="svg" originX="0" originY="0"></needle>
+		<background type="svg"></background>
+		<area x="0" y="0" w="100" h="100" />
+		
+	</instrument>
+</instruments>
