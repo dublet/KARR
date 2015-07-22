@@ -45,6 +45,9 @@ AngularInstrument::~AngularInstrument() {
 void AngularInstrument::draw() {
 }
 
+void AngularInstrument::update(float newVal) {
+}
+
 
 bool AngularInstrument::parseFromTree(boost::property_tree::ptree &) {
     return false;
