@@ -61,12 +61,20 @@ bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTre
 		return false;
 	}
 	else if (tags.first == "area") {
+	    auto attrTree = tags.second.get_child("<xmlattr>");
+	    mX = attrTree.get_child("x").get_value<int>();
+	    mY = attrTree.get_child("y").get_value<int>();
+	    mW = attrTree.get_child("w").get_value<int>();
+	    mH = attrTree.get_child("h").get_value<int>();
 	}
 	else if (tags.first == "background") {
 	    mBackground.open(tags.second.get_value<string>());
 	}
 	else if (tags.first == "needle") {
 	    mNeedle.open(tags.second.get_value<string>());
+	    auto attrTree = tags.second.get_child("<xmlattr>");
+	    mNeedleOriginX = attrTree.get_child("x").get_value<int>();
+	    mNeedleOriginY = attrTree.get_child("y").get_value<int>();
 	}
     }
     return true;
