@@ -38,7 +38,7 @@
 
 using namespace std;
 
-Instrument::Instrument() : mX(0), mY(0), mW(0), mH(0) {
+Instrument::Instrument() : mId(IID_UNKNOWN), mX(0), mY(0), mW(0), mH(0) {
 }
 
 Instrument::~Instrument() {
