@@ -36,6 +36,10 @@
 
 #include "AngularInstrument.h"
 
+#include <string>
+
+using namespace std;
+
 AngularInstrument::AngularInstrument() : Instrument() {
 }
 
@@ -52,6 +56,9 @@ bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTre
 
     for (auto &tags : instrumentTree) {
 	if (tags.first == "id") {
+	    mId = GetInstrumentIdForString(tags.second.get_value<string>());
+	    if (mId == IID_UNKNOWN)
+		return false;
 	}
 	else if (tags.first == "area") {
 	}
