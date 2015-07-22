@@ -148,9 +148,11 @@ void initInstruments() {
     }
 
     // Populate the instruments with the parsed. May result in sparse vector.
-    sInstruments.resize(maxId, nullptr);
-    for (Instrument *instr : instruments) {
-	sInstruments[instr->getId()] = instr;
+    if (maxId > 0 && maxId < 1024) {
+	sInstruments.resize(maxId, nullptr);
+	for (Instrument *instr : instruments) {
+	    sInstruments[instr->getId()] = instr;
+	}
     }
 }
 
