@@ -37,9 +37,12 @@
 #define HAVE_KARR_ANGULAR_INSTRUMENT_H
 
 #include "Instrument.h"
+#include "SVGImage.h"
 
 class AngularInstrument : public Instrument {
-	
+	SVGImage mBackground;
+	SVGImage mNeedle;
+	float mNeedleOriginX, mNeedleOriginY;
     public:
 	AngularInstrument();
 	virtual ~AngularInstrument();
