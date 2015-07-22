@@ -65,24 +65,35 @@ static const int h = 600;
 static SDL_Window *sSdlWindow = nullptr;
 static SerialConnection sArduinoConnection;
 static std::vector<Instrument *> sInstruments;
+static ArduinoDataPacket sDataPacket;
 
 void handleKeyboard(unsigned char key, int x, int y) {
     if (key == 27)
 	exit(0);
 }
 
-void handleDisplay() {
-    static ArduinoDataPacket dataPacket;
+void KARRArduinoProtocol(const ArduinoDataPacket &packet) {
+    if (packet.version == 7) {
+	sInstruments[Instrument::IID_REVS]->update(packet.analog[0]);
+	sInstruments[Instrument::IID_SPEED]->update(packet.analog[1]);
+	sInstruments[Instrument::IID_FUEL_LEVEL]->update(packet.analog[2]);
+	sInstruments[Instrument::IID_BOOST_LEVEL]->update(packet.analog[3]);
+    }
+}
 
+void handleCommunication() {
     { /* Read data from Arduino */
 	if (sArduinoConnection.isOpened()) {
-	    memset(&dataPacket, '\0', sizeof(ArduinoDataPacket));
-	    if (sArduinoConnection.read((void *)&dataPacket, sizeof(ArduinoDataPacket))) {
-
+	    memset(&sDataPacket, '\0', sizeof(ArduinoDataPacket));
+	    if (sArduinoConnection.read((void *)&sDataPacket, sizeof(ArduinoDataPacket))) {
 		// Update data
+		KARRArduinoProtocol(sDataPacket);
 	    }
 	}
     }
+}
+
+void handleDisplay() {
 
     // Set view 0 default viewport.
     bgfx::setViewRect(0, 0, 0, w, h);
@@ -186,6 +197,7 @@ int main(int argc, char** argv) {
     initScreen();
 
     initInstruments();
+
     initCommunication();
 
     TestInput::run();
@@ -196,6 +208,7 @@ int main(int argc, char** argv) {
 	if (SDL_PollEvent(&event)) {
 	    // Do something with event
 	}
+	handleCommunication();
 	handleDisplay();
     } while (1);
 
