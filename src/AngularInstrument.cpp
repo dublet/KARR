@@ -48,7 +48,17 @@ void AngularInstrument::draw() {
 void AngularInstrument::update(float newVal) {
 }
 
+bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTree) {
 
-bool AngularInstrument::parseFromTree(boost::property_tree::ptree &) {
-    return false;
+    for (auto &tags : instrumentTree) {
+	if (tags.first == "id") {
+	}
+	else if (tags.first == "area") {
+	}
+	else if (tags.first == "background") {
+	}
+	else if (tags.first == "needle") {
+	}
+    }
+    return true;
 }
