@@ -48,6 +48,9 @@
 #include <string>
 #include <sstream>
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
 #include "ArduinoDataPacket.h"
 #include "Display.h"
 #include "DisplayManager.h"
@@ -135,9 +138,32 @@ void deinitScreen() {
 }
 
 void initInstruments() {
+    boost::filesystem::path instrumentsXMLPath(""); // TODO get path
+    boost::property_tree::ptree instrumentsTree;
+    boost::property_tree::read_xml(instrumentsXMLPath.string(), instrumentsTree, boost::property_tree::xml_parser::no_comments);
+
+    // Parse into a temp vector.
+    std::vector<Instrument *> instruments;
+    Instrument::ParseInstruments(instrumentsTree, instruments);
+
+    // Determine max id for size.
+    Instrument::InstrumentId maxId = Instrument::IID_UNKNOWN;
+    for (Instrument *instr : instruments) {
+	if (instr->getId() > maxId)
+	    maxId = instr->getId();
+    }
+
+    // Populate the instruments with the parsed. May result in sparse vector.
+    sInstruments.resize(maxId, nullptr);
+    for (Instrument *instr : instruments) {
+	sInstruments[instr->getId()] = instr;
+    }
 }
 
 void deinitInstruments() {
+    for (Instrument *instr : sInstruments) {
+	delete instr;
+    }
 }
 
 void initCommunication() {
