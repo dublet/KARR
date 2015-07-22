@@ -67,6 +67,15 @@ int Instrument::getDisplayHeight() {
 void Instrument::draw() {
 }
 
+Instrument:: InstrumentId Instrument::GetInstrumentIdForString(const std::string &str) {
+    if (str == "fuel_level") return IID_FUEL_LEVEL;
+    if (str == "speed") return IID_SPEED;
+    if (str == "revs") return IID_REVS;
+    if (str == "boost_level") return IID_BOOST_LEVEL;
+    if (str == "engine_temp") return IDD_ENGINE_TEMP;
+    return IID_UNKNOWN;
+}
+
 bool Instrument::ParseInstruments(boost::property_tree::ptree &inputTree, vector<Instrument *> &result) {
 
     auto root = inputTree.get_child("instruments");
