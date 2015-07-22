@@ -106,13 +106,6 @@ void handleDisplay() {
     bgfx::frame();
 }
 
-void cleanup() {
-    // Shutdown bgfx.
-    bgfx::shutdown();
-
-    SDL_DestroyWindow(sSdlWindow);
-    SDL_Quit();
-}
 
 int initScreen() {
     SDL_InitSubSystem(SDL_INIT_VIDEO);
@@ -122,7 +115,6 @@ int initScreen() {
 	    w , h , SDL_WINDOW_SHOWN);
 
     bgfx::sdlSetWindow(sSdlWindow);
-    atexit(cleanup);
 
     bgfx::init();
     bgfx::reset(w, h, BGFX_RESET_VSYNC);
@@ -134,16 +126,44 @@ int initScreen() {
     return 0;
 }
 
+void deinitScreen() {
+    // Shutdown bgfx.
+    bgfx::shutdown();
+
+    SDL_DestroyWindow(sSdlWindow);
+    SDL_Quit();
+}
+
+void initInstruments() {
+}
+
+void deinitInstruments() {
+}
 
 void initCommunication() {
     sArduinoConnection.open("/dev/ttyAMA0");
 }
 
+void deinitCommunication() {
+    sArduinoConnection.close();
+}
+
+void cleanup() {
+    deinitCommunication();
+
+    deinitInstruments();
+
+    deinitScreen();
+}
+
 int main(int argc, char** argv) {
+    atexit(cleanup);
+
     SDL_Init(0);
 
     initScreen();
 
+    initInstruments();
     initCommunication();
 
     TestInput::run();
