@@ -42,7 +42,7 @@
 class Instrument {
     public:
 	typedef enum {
-	    IDD_UNKNOWN = -1,
+	    IID_UNKNOWN = -1,
 	    IID_FUEL_LEVEL,
 	    IID_SPEED,
 	    IID_REVS,
