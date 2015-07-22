@@ -1,0 +1,6 @@
+# CMake
+CMakeFiles
+CMakeCache.txt
+*.cmake
+# VIM
+*.swp
