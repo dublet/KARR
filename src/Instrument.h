@@ -66,7 +66,7 @@ class Instrument {
 
 	virtual void draw() = 0;
 
-	bool ParseInstruments(boost::property_tree::ptree &, std::vector<Instrument *> &);
+	static bool ParseInstruments(boost::property_tree::ptree &, std::vector<Instrument *> &);
 	virtual bool parseFromTree(boost::property_tree::ptree &) = 0;
 
 };
