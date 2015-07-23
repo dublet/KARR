@@ -73,10 +73,12 @@ bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTre
 	    mH = attrTree.get_child("h").get_value<int>();
 	}
 	else if (tags.first == "background") {
-	    mBackground.open(tags.second.get_value<string>());
+	    if (!mBackground.open(tags.second.get_value<string>()))
+		return false;
 	}
 	else if (tags.first == "needle") {
-	    mNeedle.open(tags.second.get_value<string>());
+	    if (!mNeedle.open(tags.second.get_value<string>()))
+		return false;
 	    auto attrTree = tags.second.get_child("<xmlattr>");
 	    mNeedleOriginX = attrTree.get_child("x").get_value<int>();
 	    mNeedleOriginY = attrTree.get_child("y").get_value<int>();
