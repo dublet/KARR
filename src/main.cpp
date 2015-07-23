@@ -138,6 +138,7 @@ int initScreen() {
     bgfx::reset(w, h, BGFX_RESET_VSYNC);
 
     gNanoVGContext = nvgCreateGLES2(0);
+    assert(gNanoVGContext);
 
     // Set view 0 clear state.
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
