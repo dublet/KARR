@@ -27,7 +27,6 @@ add_executable(${PROJECT_NAME}
     AngularInstrument.cpp
     CarDefinition.cpp 
     GLUtil.cpp
-    Input.cpp
     Instrument.cpp
     main.cpp
     SerialConnection.cpp
