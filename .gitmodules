@@ -13,3 +13,6 @@
 [submodule "rpi-tools"]
 	path = rpi-tools
 	url = https://github.com/raspberrypi/tools.git
+[submodule "nanovg"]
+	path = nanovg
+	url = https://github.com/memononen/nanovg.git
