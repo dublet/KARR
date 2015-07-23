@@ -23,3 +23,5 @@ bool SVGImage::open(const boost::filesystem::path &path) {
     return (_nanoSvgImage->width > 0.0f && _nanoSvgImage->height > 0.0 && _nanoSvgImage->shapes);
 }
 
+void SVGImage::draw() {
+}

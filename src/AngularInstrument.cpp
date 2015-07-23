@@ -51,6 +51,8 @@ AngularInstrument::~AngularInstrument() {
 }
 
 void AngularInstrument::draw() {
+    mBackground.draw();
+    mNeedle.draw();
 }
 
 void AngularInstrument::update(float newVal) {
