@@ -32,4 +32,6 @@ bool SVGImage::open(const boost::filesystem::path &path) {
 }
 
 void SVGImage::draw() {
+    if (!_nanoSvgImage)
+	return;
 }
