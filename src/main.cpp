@@ -70,6 +70,7 @@ NVGcontext *gNanoVGContext = nullptr;
 static const int w = 1024;
 static const int h = 600;
 static SDL_Window *sSdlWindow = nullptr;
+static SDL_GLContext sGLContext;
 static SerialConnection sArduinoConnection;
 static std::vector<Instrument *> sInstruments;
 static ArduinoDataPacket sDataPacket;
@@ -128,9 +129,18 @@ void handleDisplay() {
 int initScreen() {
     SDL_InitSubSystem(SDL_INIT_VIDEO);
 
+    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2) < 0)
+	abort();
+    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0) < 0)
+	abort();
+    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES) < 0)
+	abort();
+
     sSdlWindow = SDL_CreateWindow("karr",
 	    SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED,
-	    w , h , SDL_WINDOW_SHOWN);
+	    w , h , SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+
+    sGLContext = SDL_GL_CreateContext(sSdlWindow);
 
     bgfx::sdlSetWindow(sSdlWindow);
 
@@ -153,6 +163,7 @@ void deinitScreen() {
     // Shutdown bgfx.
     bgfx::shutdown();
 
+    SDL_GL_DeleteContext(sGLContext);
     SDL_DestroyWindow(sSdlWindow);
     SDL_Quit();
 }
