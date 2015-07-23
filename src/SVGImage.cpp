@@ -18,7 +18,8 @@ SVGImage::~SVGImage() {
     _nanoSvgImage = nullptr;
 }
 
-void SVGImage::open(const boost::filesystem::path &path) {
+bool SVGImage::open(const boost::filesystem::path &path) {
     _nanoSvgImage = ::nsvgParseFromFile(path.string().c_str(), "", 72.f);
+    return (_nanoSvgImage->width > 0.0f && _nanoSvgImage->height > 0.0 && _nanoSvgImage->shapes);
 }
 

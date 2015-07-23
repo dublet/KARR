@@ -11,7 +11,7 @@ class SVGImage {
 	SVGImage();
 	SVGImage(const boost::filesystem::path &);
 	~SVGImage();
-	void open(const boost::filesystem::path &);
+	bool open(const boost::filesystem::path &);
 
 };
 
