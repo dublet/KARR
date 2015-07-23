@@ -40,7 +40,11 @@
 
 using namespace std;
 
-AngularInstrument::AngularInstrument() : Instrument() {
+AngularInstrument::AngularInstrument() : Instrument(),
+    mNeedleOriginX(0), mNeedleOriginY(0),
+    mNeedleMinAngle(0.0f), mNeedleMaxAngle(0.0f),
+    mMinValue(0.0f), mMaxValue(0.0f), mValue(0.0f)
+    {
 }
 
 AngularInstrument::~AngularInstrument() {
@@ -50,6 +54,7 @@ void AngularInstrument::draw() {
 }
 
 void AngularInstrument::update(float newVal) {
+    mValue = newVal;
 }
 
 bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTree) {
@@ -75,6 +80,11 @@ bool AngularInstrument::parseFromTree(boost::property_tree::ptree &instrumentTre
 	    auto attrTree = tags.second.get_child("<xmlattr>");
 	    mNeedleOriginX = attrTree.get_child("x").get_value<int>();
 	    mNeedleOriginY = attrTree.get_child("y").get_value<int>();
+	    mNeedleMinAngle = attrTree.get_child("minAngle").get_value<float>();
+	    mNeedleMaxAngle = attrTree.get_child("maxAngle").get_value<float>();
+	    mMinValue = attrTree.get_child("minValue").get_value<float>();
+	    mMaxValue = attrTree.get_child("maxValue").get_value<float>();
+	    mValue = mMinValue;
 	}
     }
     return true;

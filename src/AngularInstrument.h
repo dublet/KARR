@@ -43,6 +43,9 @@ class AngularInstrument : public Instrument {
 	SVGImage mBackground;
 	SVGImage mNeedle;
 	float mNeedleOriginX, mNeedleOriginY;
+	float mNeedleMinAngle, mNeedleMaxAngle;
+	float mMinValue, mMaxValue;
+	float mValue;
     public:
 	AngularInstrument();
 	virtual ~AngularInstrument();
