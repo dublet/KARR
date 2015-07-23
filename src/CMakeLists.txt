@@ -20,6 +20,7 @@ PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 ADD_DEFINITIONS(
     -std=c++11 
     -Wall -Werror
+    -DNANOVG_GLES2
 )
 
 add_executable(${PROJECT_NAME}

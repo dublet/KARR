@@ -45,6 +45,9 @@
 #include <bgfx.h>
 #include <bgfxplatform.h>
 
+#include <nanovg.h>
+#include <nanovg_gl.h>
+
 #include <string>
 #include <sstream>
 
@@ -60,6 +63,10 @@
 using namespace KARR;
 using namespace std;
 
+/* Globals */
+NVGcontext *gNanoVGContext = nullptr;
+
+/* Statics */
 static const int w = 1024;
 static const int h = 600;
 static SDL_Window *sSdlWindow = nullptr;
@@ -94,7 +101,6 @@ void handleCommunication() {
 }
 
 void handleDisplay() {
-
     // Set view 0 default viewport.
     bgfx::setViewRect(0, 0, 0, w, h);
     // This dummy draw call is here to make sure that view 0 is cleared
@@ -105,10 +111,14 @@ void handleDisplay() {
     bgfx::dbgTextPrintf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
     bgfx::dbgTextPrintf(0, 2, 0x6f, "Description: Initialization and debug text.");
 
+    nvgBeginFrame(gNanoVGContext, w, h, 1.0f);
+
     for (Instrument *instrument : sInstruments) {
 	if (instrument)
 	    instrument->draw();
     }
+
+    nvgEndFrame(gNanoVGContext);
     // Advance to next frame. Rendering thread will be kicked to
     // process submitted rendering primitives.
     bgfx::frame();
@@ -127,6 +137,8 @@ int initScreen() {
     bgfx::init();
     bgfx::reset(w, h, BGFX_RESET_VSYNC);
 
+    gNanoVGContext = nvgCreateGLES2(0);
+
     // Set view 0 clear state.
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
 	    0x303030ff, 1.0f, 0);
@@ -135,6 +147,8 @@ int initScreen() {
 }
 
 void deinitScreen() {
+    nvgDeleteGLES2(gNanoVGContext);
+
     // Shutdown bgfx.
     bgfx::shutdown();
 
