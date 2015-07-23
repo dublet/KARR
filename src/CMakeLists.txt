@@ -21,6 +21,7 @@ ADD_DEFINITIONS(
     -std=c++11 
     -Wall -Werror
     -DNANOVG_GLES2
+    -DBGFX_CONFIG_RENDERER_OPENGLES
 )
 
 add_executable(${PROJECT_NAME}
