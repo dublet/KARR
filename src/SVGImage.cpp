@@ -2,6 +2,14 @@
 
 #define NANOSVG_IMPLEMENTATION 
 #include <nanosvg.h>
+#include <nanovg.h>
+// XXX This is bad, but easy.
+#define NANOVG_GL_IMPLEMENTATION
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+#include <GLES2/gl2platform.h>
+#include <nanovg_gl.h>
+#include <nanovg.c>
 
 
 SVGImage::SVGImage() : _nanoSvgImage(nullptr) {
