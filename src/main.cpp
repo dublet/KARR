@@ -36,17 +36,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <GL/glut.h>
-#include <vg/openvg.h>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_syswm.h>
-
-#include <bgfx.h>
-#include <bgfxplatform.h>
-
-#include <nanovg.h>
-#include <nanovg_gl.h>
 
 #include <string>
 #include <sstream>
@@ -56,9 +45,13 @@
 
 #include "ArduinoDataPacket.h"
 #include "Instrument.h"
+#include "Screen.h"
 #include "SerialConnection.h"
 #include "TestInput.h"
-#include "Knight_Industries.C"
+
+/* Must be included after the OpenGL includes in Screen. */
+#include <nanovg.h>
+#include <nanovg_gl.h>
 
 using namespace KARR;
 using namespace std;
@@ -69,8 +62,9 @@ NVGcontext *gNanoVGContext = nullptr;
 /* Statics */
 static const int w = 1024;
 static const int h = 600;
-static SDL_Window *sSdlWindow = nullptr;
-static SDL_GLContext sGLContext;
+
+static KARR::Screen *sScreen = nullptr;
+
 static SerialConnection sArduinoConnection;
 static std::vector<Instrument *> sInstruments;
 static ArduinoDataPacket sDataPacket;
@@ -102,70 +96,42 @@ void handleCommunication() {
 }
 
 void handleDisplay() {
-    // Set view 0 default viewport.
-    bgfx::setViewRect(0, 0, 0, w, h);
-    // This dummy draw call is here to make sure that view 0 is cleared
-    // if no other draw calls are submitted to view 0.
-    bgfx::submit(0);
-    // Use debug font to print information about this example.
-    bgfx::dbgTextClear();
-    bgfx::dbgTextPrintf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
-    bgfx::dbgTextPrintf(0, 2, 0x6f, "Description: Initialization and debug text.");
+    assert(sScreen);
+    sScreen->preDraw();
+    glClearColor(0,0,0,1);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_CULL_FACE);
     nvgBeginFrame(gNanoVGContext, w, h, 1.0f);
+
+    nvgSave(gNanoVGContext);
 
     for (Instrument *instrument : sInstruments) {
 	if (instrument)
 	    instrument->draw();
     }
 
-    nvgEndFrame(gNanoVGContext);
-    // Advance to next frame. Rendering thread will be kicked to
-    // process submitted rendering primitives.
-    bgfx::frame();
-}
+    nvgRestore(gNanoVGContext);
 
+    nvgEndFrame(gNanoVGContext);
+
+    sScreen->postDraw();
 
 int initScreen() {
-    SDL_InitSubSystem(SDL_INIT_VIDEO);
-
-    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2) < 0)
-	abort();
-    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0) < 0)
-	abort();
-    if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES) < 0)
-	abort();
-
-    sSdlWindow = SDL_CreateWindow("karr",
-	    SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED,
-	    w , h , SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-
-    sGLContext = SDL_GL_CreateContext(sSdlWindow);
-
-    bgfx::sdlSetWindow(sSdlWindow);
-
-    bgfx::init();
-    bgfx::reset(w, h, BGFX_RESET_VSYNC);
-
-    gNanoVGContext = nvgCreateGLES2(0);
+    sScreen = new KARR::Screen(w, h);
+    gNanoVGContext = nvgCreateGLES2(NVG_DEBUG);
     assert(gNanoVGContext);
-
-    // Set view 0 clear state.
-    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
-	    0x303030ff, 1.0f, 0);
-
     return 0;
 }
 
 void deinitScreen() {
-    nvgDeleteGLES2(gNanoVGContext);
+    if (gNanoVGContext)
+	nvgDeleteGLES2(gNanoVGContext);
 
-    // Shutdown bgfx.
-    bgfx::shutdown();
-
-    SDL_GL_DeleteContext(sGLContext);
-    SDL_DestroyWindow(sSdlWindow);
-    SDL_Quit();
+    delete sScreen;
+    sScreen = nullptr;
 }
 
 void initInstruments() {
@@ -218,8 +184,6 @@ void cleanup() {
 int main(int argc, char** argv) {
     atexit(cleanup);
 
-    SDL_Init(0);
-
     initScreen();
 
     initInstruments();
@@ -228,12 +192,11 @@ int main(int argc, char** argv) {
 
     TestInput::run();
 
+    assert(sScreen);
     do {
-
-	SDL_Event event;
-	if (SDL_PollEvent(&event)) {
-	    // Do something with event
-	}
+	assert(sScreen);
+	if (!sScreen->processEvents())
+	    break;
 	handleCommunication();
 	handleDisplay();
     } while (1);
